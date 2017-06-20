@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.atguigu.maxwu.financesecurities.activity.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#22000000" />
+
+    <RadioGroup
+        android:id="@+id/rg_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_home"
+            style="@style/MainButtonStyle"
+            android:drawableTop="@drawable/rb_home_selector"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/rb_invest"
+            style="@style/MainButtonStyle"
+            android:drawableTop="@drawable/rb_invest_selector"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/rb_property"
+            style="@style/MainButtonStyle"
+            android:drawableTop="@drawable/rb_property_selector"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/rb_more"
+            style="@style/MainButtonStyle"
+            android:drawableTop="@drawable/rb_more_selector"
+
+            android:text="首页" />
+    </RadioGroup>
+</LinearLayout>
