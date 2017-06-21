@@ -1,8 +1,7 @@
 package com.atguigu.maxwu.financesecurities.common;
 
 import android.app.Application;
-
-import com.gyf.barlibrary.ImmersionBar;
+import android.content.Context;
 
 /**
  * 作者: WuKai
@@ -13,9 +12,15 @@ import com.gyf.barlibrary.ImmersionBar;
 
 public class MyApplication extends Application {
 
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
+    }
 
+    public static Context getContext() {
+        return context;
     }
 }

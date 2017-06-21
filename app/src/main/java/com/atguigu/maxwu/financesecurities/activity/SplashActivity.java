@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.atguigu.maxwu.financesecurities.R;
+import com.atguigu.maxwu.financesecurities.common.AppManager;
+import com.atguigu.maxwu.financesecurities.utils.UIUtils;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -30,6 +32,7 @@ public class SplashActivity extends AppCompatActivity {
         initView();
         initData();
         initListener();
+        AppManager.getInstance().addActivity(this);
     }
 
     public <T> T instance(int id) {
@@ -60,7 +63,7 @@ public class SplashActivity extends AppCompatActivity {
     private void initData() {
         String versionName = getVersionName();
         if (!TextUtils.isEmpty(versionName)) {
-            tvVersion.setText(versionName);
+            UIUtils.setText(tvVersion, R.string.splash_version, versionName);
         }
     }
 
@@ -98,5 +101,11 @@ public class SplashActivity extends AppCompatActivity {
         set.addAnimation(alphaAnimation);
         set.addAnimation(ra);
         set.addAnimation(sa);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getInstance().removeActivity(this);
     }
 }

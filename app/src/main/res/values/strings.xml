@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FinanceSecurities</string>
+    <string name="splash_version">当前版本:%1$s</string>
 </resources>
