@@ -6,7 +6,8 @@
         <attr name="borderColor" format="color|reference"/>
         <attr name="progress" format="integer"/>
         <attr name="radius" format="float"/>
-        <attr name="borderWidth" format="integer"/>
+        <attr name="textSize" format="float"/>
+        <attr name="strokeWidth" format="integer"/>
 
     </declare-styleable>
 </resources>

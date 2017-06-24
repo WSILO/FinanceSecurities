@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.atguigu.maxwu.financesecurities.R;
@@ -34,6 +33,7 @@ public class ProgressView extends View {
     private int progress;
     private float radius;
     private int borderWidth;
+    private float textSize;
 
     public ProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -44,18 +44,19 @@ public class ProgressView extends View {
 
     private void initAtrrs(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ProgressView);
-        borderWidth = typedArray.getInteger(R.styleable.ProgressView_borderWidth, UIUtils.dip2px(context, 10));
+        borderWidth = typedArray.getInteger(R.styleable.ProgressView_strokeWidth, UIUtils.dip2px(context, 10));
         textColor = typedArray.getColor(R.styleable.ProgressView_textColor, Color.parseColor("#66cc00cc"));
         progressColor = typedArray.getColor(R.styleable.ProgressView_progressColor, Color.parseColor("#ff0000"));
         borderColor = typedArray.getColor(R.styleable.ProgressView_borderColor, Color.parseColor("#000000"));
         progress = typedArray.getInt(R.styleable.ProgressView_progress, 0);
         radius = typedArray.getFloat(R.styleable.ProgressView_radius, UIUtils.dip2px(context, 55));
+        textSize = typedArray.getFloat(R.styleable.ProgressView_textSize, 28);
         typedArray.recycle();
     }
 
     private void initPaint() {
         paint = new Paint();
-        paint.setTextSize(28);
+        paint.setTextSize(textSize);
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
 
@@ -66,8 +67,6 @@ public class ProgressView extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         width = getMeasuredWidth();
         height = getMeasuredHeight();
-        Log.e("TAG","width=="+width);
-        Log.e("TAG","height=="+height);
     }
 
     @Override

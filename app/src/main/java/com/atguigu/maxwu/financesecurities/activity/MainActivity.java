@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.atguigu.maxwu.financesecurities.R;
 import com.atguigu.maxwu.financesecurities.common.AppManager;
 import com.atguigu.maxwu.financesecurities.home.homefragment.HomeFragment;
-import com.atguigu.maxwu.financesecurities.investfragment.InvestFragment;
+import com.atguigu.maxwu.financesecurities.invest.investfragment.InvestFragment;
 import com.atguigu.maxwu.financesecurities.morefragment.MoreFragment;
 import com.atguigu.maxwu.financesecurities.propertyfragment.PropertyFragment;
 

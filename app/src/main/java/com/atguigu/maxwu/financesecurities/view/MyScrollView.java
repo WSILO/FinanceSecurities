@@ -22,12 +22,13 @@ import com.youth.banner.Banner;
 public class MyScrollView extends ScrollView {
 
     private boolean isAnFinish = true;
-    private float startX;
-    private float startY;
+    private int startX;
+    private int startY;
     private Rect rect;
-    private LinearLayout chidView;
+    private LinearLayout childView;
     private Banner banner;
     private FrameLayout fl;
+    private int height;
 
     public MyScrollView(Context context) {
         this(context, null);
@@ -43,9 +44,9 @@ public class MyScrollView extends ScrollView {
     protected void onFinishInflate() {
         super.onFinishInflate();
         if (getChildCount() > 0) {
-            chidView = (LinearLayout) getChildAt(0);
-            if (chidView.getChildCount() > 0) {
-                fl = (FrameLayout) chidView.getChildAt(0);
+            childView = (LinearLayout) getChildAt(0);
+            if (childView.getChildCount() > 0) {
+                fl = (FrameLayout) childView.getChildAt(0);
             }
             if (fl.getChildCount() > 0) {
                 banner = (Banner) fl.getChildAt(0);
@@ -54,62 +55,82 @@ public class MyScrollView extends ScrollView {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//        height = getMeasuredHeight();
+        height = getHeight();
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (getChildCount() == 0 || !isAnFinish) {
             return super.onTouchEvent(ev);
         }
-        float y = ev.getY();
+        int y = (int) ev.getY();
         switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startY = y;
-                banner.stopAutoPlay();
-                break;
             case MotionEvent.ACTION_MOVE:
-                float disY = y - startY;
-                if (rect.isEmpty()) {
-                    rect.set(chidView.getLeft(), chidView.getTop(), chidView.getRight(), chidView.getBottom());
+                stopBanner();
+                if (y > height) {
+                    y = height;
                 }
-                chidView.layout(chidView.getLeft(), (int) (chidView.getTop() + disY), chidView.getRight(), (int) (chidView.getBottom() + disY));
+                if (y < 0) {
+                    y = 0;
+                }
+                int disY = (int) (y - startY);
+                if (rect.isEmpty()) {
+                    rect.set(childView.getLeft(), childView.getTop(), childView.getRight(), childView.getBottom());
+                }
+                childView.layout(childView.getLeft(), childView.getTop() + disY, childView.getRight(), childView.getBottom() + disY);
                 startY = y;
                 break;
             case MotionEvent.ACTION_UP:
                 if (!rect.isEmpty()) {
-                    float anOffset = rect.top - chidView.getTop();
+                    float anOffset = rect.top - childView.getTop();
                     TranslateAnimation ta = new TranslateAnimation(0, 0, 0, anOffset);
                     ta.setDuration(200);
                     ta.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
                             isAnFinish = false;
-
                         }
 
                         @Override
                         public void onAnimationEnd(Animation animation) {
-                            banner.startAutoPlay();
+                            startBanner();
                             isAnFinish = true;
-                            chidView.clearAnimation();
-                            chidView.layout(rect.left, rect.top, rect.right, rect.bottom);
+                            childView.clearAnimation();
+                            childView.layout(rect.left, rect.top, rect.right, rect.bottom);
                             rect.setEmpty();
                         }
 
                         @Override
                         public void onAnimationRepeat(Animation animation) {
-
                         }
                     });
-                    chidView.startAnimation(ta);
+                    childView.startAnimation(ta);
                 }
                 break;
         }
-        return true;
+        return super.onTouchEvent(ev);
+    }
+
+    private void startBanner() {
+        if (banner != null) {
+            banner.startAutoPlay();
+        }
+    }
+
+    private void stopBanner() {
+        if (banner != null) {
+            banner.stopAutoPlay();
+        }
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         boolean isIntercept = false;
-        float y = ev.getY();
-        float x = ev.getX();
+        int y = (int) ev.getY();
+        int x = (int) ev.getX();
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 startY = y;
@@ -124,3 +145,4 @@ public class MyScrollView extends ScrollView {
         return isIntercept;
     }
 }
+

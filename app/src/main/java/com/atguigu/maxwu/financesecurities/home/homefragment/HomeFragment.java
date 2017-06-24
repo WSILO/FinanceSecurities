@@ -1,6 +1,7 @@
 package com.atguigu.maxwu.financesecurities.home.homefragment;
 
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -39,6 +40,8 @@ public class HomeFragment extends BaseFragment {
     Toolbar toolbar;
     @BindView(R.id.banner)
     Banner banner;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
     @BindView(R.id.tv_home_yearrate)
     TextView tvHomeYearrate;
     @BindView(R.id.bt_join)
@@ -74,12 +77,21 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void setContent(String content) {
-        pareJson(content);
+        if (TextUtils.isEmpty(content)) {
+        } else {
+            pareJson(content);
+        }
     }
 
     @Override
     public void setListener() {
 
+    }
+
+    @Override
+    public void initTitle() {
+        super.initTitle();
+        tvTitle.setText("首页");
     }
 
     @Override

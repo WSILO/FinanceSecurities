@@ -26,6 +26,7 @@ public abstract class LoadingPager extends FrameLayout {
     private final static int STATE_ERROR = 1;
     private final static int STATE_SUCCESS = 2;
     private int currentState = STATE_LOAD;
+    private LoadState loadState;
 
     public LoadingPager(Context context) {
         this(context, null);
@@ -45,6 +46,7 @@ public abstract class LoadingPager extends FrameLayout {
     }
 
     private void showSafePager() {
+        //保证在主线程更新UI
         UIUtils.runOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -53,6 +55,7 @@ public abstract class LoadingPager extends FrameLayout {
         });
     }
 
+    //显示页面
     private void showPager() {
         loadView.setVisibility(currentState == STATE_LOAD ? VISIBLE : GONE);
         errorView.setVisibility(currentState == STATE_ERROR ? VISIBLE : GONE);
@@ -61,33 +64,78 @@ public abstract class LoadingPager extends FrameLayout {
             successView = View.inflate(getContext(), id, null);
             addView(successView);
         }
-        successView.setVisibility(currentState == STATE_SUCCESS ? VISIBLE : GONE);
+        if (successView != null) {
+            successView.setVisibility(currentState == STATE_SUCCESS ? VISIBLE : GONE);
+        }
     }
 
     public void loadNet() {
         String url = getUrl();
-        if (TextUtils.isEmpty(url)) {
-            return;
-        } else {
+        if (TextUtils.isEmpty(url)) {//url为空时直接加载子布局
+            currentState = STATE_SUCCESS;
+            showSafePager();
+            setData(successView, "");
+        } else {//否则进行网络请求
             HttpUtils.getInstance().get(url, new HttpUtils.CallBackListener() {
                 @Override
                 public void onSuccess(String content) {
                     if (TextUtils.isEmpty(content)) {
-                        currentState = STATE_ERROR;
-                        showSafePager();
+                        loadState = LoadState.ERROR;
+                        showState();
                     } else {
-                        currentState = STATE_SUCCESS;
-                        showSafePager();
-                        setData(successView,content);
+                        loadState = LoadState.SUCCESS;
+                        loadState.setJson(content);
+                        showState();
                     }
                 }
 
                 @Override
                 public void onFailure(String content) {
-
+                    loadState = LoadState.ERROR;
+                    showState();
                 }
             });
         }
+    }
+
+    private void showState() {
+        switch (loadState) {
+            case SUCCESS:
+                currentState = STATE_SUCCESS;
+                break;
+            case LOADING:
+                currentState = STATE_LOAD;
+                break;
+            case ERROR:
+                currentState = STATE_ERROR;
+                break;
+        }
+        showSafePager();
+        if (currentState == STATE_SUCCESS) {
+            setData(successView, LoadState.SUCCESS.getJson());
+        }
+    }
+
+
+    //成功,失败,加载中的三个状态列举
+    public enum LoadState {
+        SUCCESS(0), LOADING(1), ERROR(2);
+
+        private final int state;
+        public String json;
+
+        LoadState(int state) {
+            this.state = state;
+        }
+
+        public String getJson() {
+            return json;
+        }
+
+        public void setJson(String json) {
+            this.json = json;
+        }
+
     }
 
     protected abstract void setData(View successView, String content);

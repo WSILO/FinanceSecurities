@@ -4,10 +4,42 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <include layout="@layout/base_title" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="投资"
-        android:textSize="30sp" />
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/tv_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="全部理财"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tv_re"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="推荐理财"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tv_hot"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="热门理财"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_invest"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

@@ -42,6 +42,10 @@ public abstract class BaseFragment extends ImmersionFragment {
             @Override
             protected void setData(View successView, String content) {
                 bind = ButterKnife.bind(BaseFragment.this, successView);
+                initData();
+                initTitle();
+                initView();
+                setListener();
                 setContent(content);
             }
 
@@ -56,16 +60,30 @@ public abstract class BaseFragment extends ImmersionFragment {
             }
         };
 
-        initView();
-        initData();
-        setListener();
+
         return loadingPager;
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        loadingPager.loadNet();
+        if (setLayoutId() != 0) {
+            loadingPager.loadNet();
+        }
+    }
+
+    @Override
+    protected void immersionInit() {
+        if (loadingPager != null) {
+            ImmersionBar.with(this).titleBar(R.id.toolbar, loadingPager, true).statusBarDarkFont(false, 0.2f)
+                    .navigationBarColor(R.color.shape1).init();
+        }
+
+    }
+
+    public void initTitle() {
+
     }
 
     protected abstract String getUrl();
@@ -76,20 +94,9 @@ public abstract class BaseFragment extends ImmersionFragment {
 
     public abstract int setLayoutId();
 
-    ;
-
     public abstract void initView();
 
     public void initData() {
-
-    }
-
-    @Override
-    protected void immersionInit() {
-        if (loadingPager != null) {
-            ImmersionBar.with(this).titleBar(R.id.toolbar, loadingPager, true).statusBarDarkFont(false, 0.2f)
-                    .navigationBarColor(R.color.shape1).init();
-        }
 
     }
 
