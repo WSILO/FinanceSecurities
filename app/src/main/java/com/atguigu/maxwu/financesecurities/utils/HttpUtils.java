@@ -14,19 +14,23 @@ public class HttpUtils {
 
     private static HttpUtils httpUtils;
     private AsyncHttpClient client;
-    private AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler(){
+    private AsyncHttpResponseHandler handler = new AsyncHttpResponseHandler() {
         @Override
-        public void onSuccess(String content) {
+        public void onSuccess(int statuCode, String content) {
             super.onSuccess(content);
-            if(listener != null) {
-                listener.onSuccess(content);
+            if (listener != null) {
+                if (statuCode == 200) {
+                    listener.onSuccess(content);
+                } else {
+                    listener.onSuccess(null);
+                }
             }
         }
 
         @Override
         public void onFailure(Throwable error, String content) {
             super.onFailure(error, content);
-            if(listener != null) {
+            if (listener != null) {
                 listener.onFailure(content);
             }
         }
@@ -48,12 +52,12 @@ public class HttpUtils {
         return httpUtils;
     }
 
-    public void get(String url, CallBackListener listener){
+    public void get(String url, CallBackListener listener) {
         this.listener = listener;
         client.get(url, handler);
     }
 
-    public interface CallBackListener{
+    public interface CallBackListener {
 
         void onSuccess(String content);
 

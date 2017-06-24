@@ -14,6 +14,16 @@ public class PropertyFragment extends BaseFragment {
 
 
     @Override
+    protected String getUrl() {
+        return null;
+    }
+
+    @Override
+    protected void setContent(String content) {
+
+    }
+
+    @Override
     public void setListener() {
 
     }

@@ -17,6 +17,16 @@ public class InvestFragment extends BaseFragment {
     private TextView textView;
 
     @Override
+    protected String getUrl() {
+        return null;
+    }
+
+    @Override
+    protected void setContent(String content) {
+
+    }
+
+    @Override
     public void setListener() {
 
     }

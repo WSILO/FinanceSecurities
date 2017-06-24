@@ -11,8 +11,8 @@ import com.atguigu.maxwu.financesecurities.R;
 import com.atguigu.maxwu.financesecurities.base.BaseFragment;
 import com.atguigu.maxwu.financesecurities.common.NetConfig;
 import com.atguigu.maxwu.financesecurities.home.bean.IndexBean;
-import com.atguigu.maxwu.financesecurities.utils.HttpUtils;
 import com.atguigu.maxwu.financesecurities.utils.PicassoImageLoader;
+import com.atguigu.maxwu.financesecurities.view.ProgressView;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
@@ -43,32 +43,38 @@ public class HomeFragment extends BaseFragment {
     TextView tvHomeYearrate;
     @BindView(R.id.bt_join)
     Button btJoin;
+    @BindView(R.id.pro_view)
+    ProgressView proView;
     private List<String> list;
-    private HttpUtils.CallBackListener listener = new HttpUtils.CallBackListener() {
-        @Override
-        public void onSuccess(String content) {
-            pareJson(content);
-        }
-
-        @Override
-        public void onFailure(String content) {
-
-        }
-    };
 
     private void pareJson(String content) {
         IndexBean indexBean = JSON.parseObject(content, IndexBean.class);
         List<IndexBean.ImageArrBean> imageArr = indexBean.getImageArr();
-        if(imageArr != null && imageArr.size() > 0) {
-            for(int i = 0; i < imageArr.size(); i++) {
-                list.add(NetConfig.BASE_URL+imageArr.get(i).getIMAURL());
+        if (imageArr != null && imageArr.size() > 0) {
+            for (int i = 0; i < imageArr.size(); i++) {
+                list.add(NetConfig.BASE_URL + imageArr.get(i).getIMAURL());
             }
             initBanner();
+            initProgress(indexBean);
         }
+    }
+
+    private void initProgress(IndexBean indexBean) {
+        proView.setProgress(indexBean.getProInfo().getProgress());
     }
 
     private void initBanner() {
         banner.setImageLoader(new PicassoImageLoader()).setImages(list).start();
+    }
+
+    @Override
+    protected String getUrl() {
+        return NetConfig.INDEX;
+    }
+
+    @Override
+    protected void setContent(String content) {
+        pareJson(content);
     }
 
     @Override
@@ -89,12 +95,8 @@ public class HomeFragment extends BaseFragment {
     public void initData() {
         super.initData();
         list = new ArrayList<>();
-        loadNet();
     }
 
-    private void loadNet() {
-        HttpUtils.getInstance().get(NetConfig.INDEX, listener);
-    }
 
     @Override
     protected void immersionInit() {

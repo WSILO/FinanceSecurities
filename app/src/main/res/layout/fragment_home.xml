@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical">
 
     <include layout="@layout/base_title" />
 
-    <ScrollView
+    <com.atguigu.maxwu.financesecurities.view.MyScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -76,6 +77,12 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
+            <com.atguigu.maxwu.financesecurities.view.ProgressView
+                android:id="@+id/pro_view"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                 />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,5 +125,5 @@
                 android:textColor="@color/home_back_unselected" />
         </LinearLayout>
 
-    </ScrollView>
+    </com.atguigu.maxwu.financesecurities.view.MyScrollView>
 </LinearLayout>

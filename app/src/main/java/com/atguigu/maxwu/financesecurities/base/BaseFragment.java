@@ -1,5 +1,6 @@
 package com.atguigu.maxwu.financesecurities.base;
 
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.atguigu.maxwu.financesecurities.R;
+import com.atguigu.maxwu.financesecurities.view.LoadingPager;
 import com.gyf.barlibrary.ImmersionBar;
 import com.gyf.barlibrary.ImmersionFragment;
 
@@ -24,8 +26,8 @@ import butterknife.Unbinder;
 public abstract class BaseFragment extends ImmersionFragment {
 
     public Context mContext;
-    public View mRootView;
     private Unbinder bind;
+    private LoadingPager loadingPager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,13 +38,39 @@ public abstract class BaseFragment extends ImmersionFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(setLayoutId(), container, false);
-        bind = ButterKnife.bind(this, mRootView);
+        loadingPager = new LoadingPager(mContext) {
+            @Override
+            protected void setData(View successView, String content) {
+                bind = ButterKnife.bind(BaseFragment.this, successView);
+                setContent(content);
+            }
+
+            @Override
+            protected String getUrl() {
+                return BaseFragment.this.getUrl();
+            }
+
+            @Override
+            public int getlayout() {
+                return setLayoutId();
+            }
+        };
+
         initView();
         initData();
         setListener();
-        return mRootView;
+        return loadingPager;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        loadingPager.loadNet();
+    }
+
+    protected abstract String getUrl();
+
+    protected abstract void setContent(String content);
 
     public abstract void setListener();
 
@@ -58,8 +86,8 @@ public abstract class BaseFragment extends ImmersionFragment {
 
     @Override
     protected void immersionInit() {
-        if (mRootView != null) {
-            ImmersionBar.with(this).titleBar(R.id.toolbar, mRootView, true).statusBarDarkFont(false, 0.2f)
+        if (loadingPager != null) {
+            ImmersionBar.with(this).titleBar(R.id.toolbar, loadingPager, true).statusBarDarkFont(false, 0.2f)
                     .navigationBarColor(R.color.shape1).init();
         }
 

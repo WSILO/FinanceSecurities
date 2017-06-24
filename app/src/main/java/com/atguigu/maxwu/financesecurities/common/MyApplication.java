@@ -2,6 +2,7 @@ package com.atguigu.maxwu.financesecurities.common;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
 
 /**
  * 作者: WuKai
@@ -13,11 +14,24 @@ import android.content.Context;
 public class MyApplication extends Application {
 
     private static Context context;
+    private static Handler handler;
+    private static int pid;
+
+    public static Handler getHandler() {
+        return handler;
+    }
+
+    public static int getPid() {
+        return pid;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
+        pid = android.os.Process.myPid();
+        handler = new Handler();
+
     }
 
     public static Context getContext() {
