@@ -1,10 +1,13 @@
 package com.atguigu.maxwu.financesecurities.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
 import com.atguigu.maxwu.financesecurities.common.MyApplication;
+
+import java.util.Random;
 
 /**
  * 作者: WuKai
@@ -54,5 +57,12 @@ public class UIUtils {
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+    public static int setColor() {
+        Random random = new Random();
+        int r = random.nextInt(100) + 100;
+        int g = random.nextInt(100) + 100;
+        int b = random.nextInt(100) + 100;
+        return Color.rgb(r, g, b);
     }
 }

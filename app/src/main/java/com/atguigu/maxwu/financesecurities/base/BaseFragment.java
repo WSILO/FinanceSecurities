@@ -42,9 +42,10 @@ public abstract class BaseFragment extends ImmersionFragment {
             @Override
             protected void setData(View successView, String content) {
                 bind = ButterKnife.bind(BaseFragment.this, successView);
-                initData();
                 initTitle();
                 initView();
+
+                initData();
                 setListener();
                 setContent(content);
             }
