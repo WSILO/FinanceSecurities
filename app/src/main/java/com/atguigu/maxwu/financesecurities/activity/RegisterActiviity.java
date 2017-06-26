@@ -10,6 +10,14 @@ import android.widget.TextView;
 
 import com.atguigu.maxwu.financesecurities.R;
 import com.atguigu.maxwu.financesecurities.base.BaseActivity;
+import com.atguigu.maxwu.financesecurities.common.NetConfig;
+import com.atguigu.maxwu.financesecurities.utils.HttpUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -67,9 +75,48 @@ public class RegisterActiviity extends BaseActivity {
                 String number = etRegisterNumber.getText().toString().trim();
                 String pwd = etRegisterPwd.getText().toString().trim();
                 String pwdAgain = etRegisterPwdAgain.getText().toString().trim();
+                if (TextUtils.isEmpty(number)) {
+                    showToast("手机号不能为空");
+                    return;
+                }
                 if (TextUtils.isEmpty(name)) {
                     showToast("用户名不能为空");
                     return;
+                }
+                if (TextUtils.isEmpty(pwd)) {
+                    showToast("用户名不能为空");
+                    return;
+                } else {
+                    if (pwd.equals(pwdAgain)) {
+                        Map<String, String> map = new HashMap<>();
+                        map.put("name", name);
+                        map.put("phone", number);
+                        map.put("password", pwd);
+                        HttpUtils.getInstance().post(NetConfig.REGISTER, map, new HttpUtils.CallBackListener() {
+                            @Override
+                            public void onSuccess(String content) {
+                                if (!TextUtils.isEmpty(content)) {
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(content);
+                                        boolean isExist = jsonObject.optBoolean("isExist");
+                                        if (isExist) {
+                                            showToast("用户名已存在,注册失败");
+                                        } else {
+                                            showToast("注册成功");
+                                            finish();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(String content) {
+
+                            }
+                        });
+                    }
                 }
                 break;
         }
