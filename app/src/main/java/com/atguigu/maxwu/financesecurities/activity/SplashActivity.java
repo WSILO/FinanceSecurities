@@ -3,8 +3,6 @@ package com.atguigu.maxwu.financesecurities.activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -15,31 +13,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.atguigu.maxwu.financesecurities.R;
-import com.atguigu.maxwu.financesecurities.common.AppManager;
+import com.atguigu.maxwu.financesecurities.base.BaseActivity;
 import com.atguigu.maxwu.financesecurities.utils.UIUtils;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     private RelativeLayout rlSplash;
     private TextView tvVersion;
     private AnimationSet set;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-
-        initView();
-        initData();
-        initListener();
-        AppManager.getInstance().addActivity(this);
-    }
-
-    public <T> T instance(int id) {
-        return (T) findViewById(id);
-    }
-
-    private void initListener() {
+    protected void initListener() {
 
         set.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -49,8 +32,13 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                finish();
+                if(isLogin()) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                }else {
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    finish();
+                }
             }
 
             @Override
@@ -60,7 +48,11 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    private void initData() {
+    private boolean isLogin() {
+        return isState();
+    }
+
+    protected void initData() {
         String versionName = getVersionName();
         if (!TextUtils.isEmpty(versionName)) {
             UIUtils.setText(tvVersion, R.string.splash_version, versionName);
@@ -78,12 +70,17 @@ public class SplashActivity extends AppCompatActivity {
         return null;
     }
 
-    private void initView() {
+    protected void initView() {
         tvVersion = instance(R.id.tv_version);
         rlSplash = instance(R.id.rl_splash);
 
         setAnimation();
         rlSplash.startAnimation(set);
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_splash;
     }
 
     private void setAnimation() {
@@ -103,9 +100,4 @@ public class SplashActivity extends AppCompatActivity {
         set.addAnimation(sa);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        AppManager.getInstance().removeActivity(this);
-    }
 }

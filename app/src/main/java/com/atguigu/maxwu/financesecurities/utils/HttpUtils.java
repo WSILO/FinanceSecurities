@@ -2,6 +2,9 @@ package com.atguigu.maxwu.financesecurities.utils;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import java.util.Map;
 
 /**
  * 作者: WuKai
@@ -55,6 +58,12 @@ public class HttpUtils {
     public void get(String url, CallBackListener listener) {
         this.listener = listener;
         client.get(url, handler);
+    }
+
+    public void post(String url, Map<String, String> map, CallBackListener listener) {
+        this.listener = listener;
+        RequestParams params = new RequestParams(map);
+        client.post(url, params, handler);
     }
 
     public interface CallBackListener {

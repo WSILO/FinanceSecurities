@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.maxwu.financesecurities.bean.LoginBean;
@@ -52,11 +53,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void saveState(boolean isOk) {
-        SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
-        sp.edit().putBoolean("isOk", isOk).commit();
-    }
-
     public LoginBean getUser() {
         SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
         String json = sp.getString("json", "");
@@ -65,6 +61,20 @@ public abstract class BaseActivity extends AppCompatActivity {
             loginBean = JSONObject.parseObject(json, LoginBean.class);
         }
         return loginBean;
+    }
+
+    public void saveState(boolean isOk) {
+        SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
+        sp.edit().putBoolean("isOk", isOk).commit();
+    }
+
+    public boolean isState() {
+        SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
+        return sp.getBoolean("isOk", false);
+    }
+
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
