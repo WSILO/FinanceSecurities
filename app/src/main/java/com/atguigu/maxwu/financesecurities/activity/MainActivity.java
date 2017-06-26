@@ -1,14 +1,12 @@
 package com.atguigu.maxwu.financesecurities.activity;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.atguigu.maxwu.financesecurities.R;
-import com.atguigu.maxwu.financesecurities.common.AppManager;
+import com.atguigu.maxwu.financesecurities.base.BaseActivity;
 import com.atguigu.maxwu.financesecurities.home.homefragment.HomeFragment;
 import com.atguigu.maxwu.financesecurities.invest.investfragment.InvestFragment;
 import com.atguigu.maxwu.financesecurities.morefragment.MoreFragment;
@@ -17,7 +15,7 @@ import com.atguigu.maxwu.financesecurities.propertyfragment.PropertyFragment;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private RadioGroup rgMain;
     private HomeFragment homeFragment;
@@ -26,17 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private PropertyFragment propertyFragment;
     private boolean isExit = false;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initView();
-        initData();
-        initListener();
-        AppManager.getInstance().addActivity(this);
 
-    }
-
-    private void initListener() {
+    protected void initListener() {
         rgMain.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -101,22 +90,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initData() {
+    protected void initData() {
 
     }
 
-    private void initView() {
-        setContentView(R.layout.activity_main);
+    protected void initView() {
         rgMain = instance(R.id.rg_main);
         switchFragment(R.id.rb_home);
     }
 
-    public <T> T instance(int id) {
-        return (T) findViewById(id);
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_main;
     }
 
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+   public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && !isExit) {
             isExit = true;
             new Timer().schedule(new TimerTask() {
@@ -131,9 +121,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        AppManager.getInstance().removeActivity(this);
-    }
 }
