@@ -3,12 +3,14 @@ package com.atguigu.maxwu.financesecurities.activity;
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.atguigu.maxwu.financesecurities.R;
 import com.atguigu.maxwu.financesecurities.base.BaseActivity;
@@ -20,6 +22,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,6 +48,7 @@ public class LoginActivity extends BaseActivity {
     TextView regitsterTv;
     @BindView(R.id.activity_login)
     LinearLayout activityLogin;
+    private boolean isExit;
 
     @Override
     protected void initListener() {
@@ -113,6 +118,20 @@ public class LoginActivity extends BaseActivity {
                 break;
         }
     }
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && !isExit) {
+            isExit = true;
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false;
+                }
+            }, 2000);
+            Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.atguigu.maxwu.financesecurities.common;
 
 import android.app.Activity;
+import android.util.Log;
 
 import java.util.Stack;
 
@@ -23,10 +24,15 @@ public class AppManager {
     }
 
     public void removeAll() {
-        for (Activity activity : stack) {
-            if (activity != null) {
-                activity.finish();
-                stack.remove(activity);
+
+        for (int i = stack.size() - 1; i >= 0; i--) {
+
+            Activity currentActivity = stack.get(i);
+
+            if (currentActivity != null) {
+                currentActivity.finish();
+                stack.remove(i);
+                Log.e("TAG", "removeAll--activity==" + currentActivity);
             }
         }
     }

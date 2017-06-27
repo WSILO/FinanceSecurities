@@ -10,7 +10,7 @@ import com.atguigu.maxwu.financesecurities.base.BaseActivity;
 import com.atguigu.maxwu.financesecurities.home.homefragment.HomeFragment;
 import com.atguigu.maxwu.financesecurities.invest.investfragment.InvestFragment;
 import com.atguigu.maxwu.financesecurities.morefragment.MoreFragment;
-import com.atguigu.maxwu.financesecurities.propertyfragment.PropertyFragment;
+import com.atguigu.maxwu.financesecurities.property.fragment.PropertyFragment;
 
 import java.util.Timer;
 import java.util.TimerTask;

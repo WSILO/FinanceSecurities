@@ -62,10 +62,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return loginBean;
     }
+    public void clearSp(){
+        getSharedPreferences("atguigu", MODE_PRIVATE).edit().clear().commit();
+    }
 
     public void saveState(boolean isOk) {
         SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
         sp.edit().putBoolean("isOk", isOk).commit();
+    }
+    public void saveImage(String path) {
+        SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
+        sp.edit().putString("imageurl", path).putBoolean("isFile", true).commit();
     }
 
     public boolean isState() {
@@ -75,6 +82,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+    public String getImage() {
+        SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
+        boolean isFile = sp.getBoolean("isFile", false);
+        if (isFile) {
+            return sp.getString("imageurl", "");
+        } else {
+            return "";
+        }
     }
 
     @Override
