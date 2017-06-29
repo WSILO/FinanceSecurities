@@ -1,5 +1,6 @@
 package com.atguigu.maxwu.financesecurities.home.homefragment;
 
+import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.atguigu.maxwu.financesecurities.R;
+import com.atguigu.maxwu.financesecurities.activity.MainActivity;
+import com.atguigu.maxwu.financesecurities.activity.gesture.GestureVerifyActivity;
 import com.atguigu.maxwu.financesecurities.base.BaseFragment;
 import com.atguigu.maxwu.financesecurities.common.NetConfig;
 import com.atguigu.maxwu.financesecurities.home.bean.IndexBean;
@@ -101,6 +104,10 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initView() {
+        MainActivity activity = (MainActivity) mContext;
+        if (activity.isState("isSetting")) {
+            startActivity(new Intent(mContext, GestureVerifyActivity.class));
+        }
     }
 
     @Override

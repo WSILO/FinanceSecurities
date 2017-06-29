@@ -66,18 +66,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         getSharedPreferences("atguigu", MODE_PRIVATE).edit().clear().commit();
     }
 
-    public void saveState(boolean isOk) {
+    public void saveState(String key,boolean isOk) {
         SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
-        sp.edit().putBoolean("isOk", isOk).commit();
+        sp.edit().putBoolean(key, isOk).commit();
     }
     public void saveImage(String path) {
         SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
         sp.edit().putString("imageurl", path).putBoolean("isFile", true).commit();
     }
 
-    public boolean isState() {
+    public boolean isState(String key) {
         SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
-        return sp.getBoolean("isOk", false);
+        return sp.getBoolean(key, false);
     }
 
     public void showToast(String message) {

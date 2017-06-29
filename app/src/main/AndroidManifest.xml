@@ -58,6 +58,8 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".activity.gesture.GestureVerifyActivity"/>
+        <activity android:name=".activity.gesture.GestureEditActivity"/>
     </application>
 
 </manifest>

@@ -162,7 +162,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private boolean isLogin() {
-        return isState();
+        return isState("isOk");
     }
 
     protected void initData() {

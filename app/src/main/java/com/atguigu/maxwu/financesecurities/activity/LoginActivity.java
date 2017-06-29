@@ -94,7 +94,7 @@ public class LoginActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(content);
                             boolean isOk = jsonObject.optBoolean("success");
-                            saveState(isOk);
+                            saveState("isOk",isOk);
                             if (isOk) {
                                 saveJson(content);
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
