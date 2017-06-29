@@ -52,6 +52,12 @@
         <activity android:name=".property.activity.InvestActivity" />
         <activity android:name=".property.activity.InvestVisualActivity" />
         <activity android:name=".property.activity.PropertyActivity"></activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
 
 </manifest>

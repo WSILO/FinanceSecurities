@@ -92,7 +92,16 @@ public abstract class BaseActivity extends AppCompatActivity {
             return "";
         }
     }
-
+    public void saveMoney(double m) {
+        SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putFloat("money", (float) m);
+        editor.commit();
+    }
+    public float getMoney() {
+        SharedPreferences sp = getSharedPreferences("atguigu", MODE_PRIVATE);
+        return sp.getFloat("money", 0);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
